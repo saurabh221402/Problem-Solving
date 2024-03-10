@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int n=nums.size();
+        int i=0,j=nums.size()-1;
+
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+        if((mid==0||nums[mid]>nums[mid-1])&&(mid==n-1||nums[mid]>nums[mid+1]))
+        return mid;
+        else if(nums[mid]<nums[mid+1])          //if next element is greater then 100% proability to find peak element in right side(dinstinct element)
+        {
+            i=mid+1;
+        }
+        else                                     //else  100% proability to find peak element in left side
+        {
+            j=mid-1;
+        }
+
+        }
+        return 0;
+    }
+};
