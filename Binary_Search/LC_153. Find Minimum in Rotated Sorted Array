@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int i=0,j=nums.size()-1,n=j+1;
+    if(n==1)return nums[0];
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            if(nums[mid]<nums[(mid+n-1)%n])    //check mid element with it previous element if it is greater then the mid element is the minimium element in array
+              return nums[mid];
+            else if(nums[mid]>nums[j])         //if mid element is greater then last element then its means that minimum element exist right side of mid hence i=mid+1
+              i=mid+1;
+            else
+              j=mid-1;
+        }
+        return 0;
+    }
+};
