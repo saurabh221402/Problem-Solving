@@ -1,0 +1,36 @@
+class Solution {
+private:
+     int first_idx(vector<int>& v,int tar,int i,int j)
+    {
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            if(v[mid]==tar && (mid==0 || v[mid]!=v[mid-1])) return mid;
+            else if(v[mid]<tar) i=mid+1;
+            else j=mid-1;
+        }
+        return -1;
+    }
+
+     int last_idx(vector<int>& v,int tar,int i,int j)
+    {
+        int x=v.size()-1;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            if(v[mid]==tar && (mid==x || v[mid]!=v[mid+1])) return mid;
+            else if(v[mid]>tar) j=mid-1;
+            else{i=mid+1;}
+        }
+        return -1;
+    }
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n=nums.size();
+        if(n==0)return {-1,-1};
+        int first=first_idx(nums,target,0,n-1);
+        if(first==-1)return {-1,-1};
+        int last=last_idx(nums,target,0,n-1);
+        return {first,last};
+    }
+};
