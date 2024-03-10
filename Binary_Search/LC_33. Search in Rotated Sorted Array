@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int i=0,j=nums.size()-1;
+        if(j==-1)return -1;    //nums is empty then return -1
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            if(nums[mid]==target)return mid;        
+            else if(nums[i]<=nums[mid])                        //it means the mid elment is in 1st part of rotated array
+            {
+                if(nums[i]<=target && nums[mid]>target)        //it says that target lies btw start and mid element so we decrease search space from j=mid-1
+                {
+                    j=mid-1;
+                }
+                else                                          //it says that target lies btw mid and end element 
+                {
+                    i=mid+1;
+                }
+            }
+            else                                               //it means the mid elment is in 2nd part of rotated array
+            {
+                if(nums[mid]<target && nums[j]>=target)        //it says that target lies btw end and mid element so we decrease search space by shifting i=mid+1
+                {
+                    i=mid+1;
+                }
+                else                                          //it says that target lies btw start and mid element 
+                {
+                    j=mid-1;
+                }
+            }
+        }
+        return -1;                                           //if element not found then return -1
+    }
+};
