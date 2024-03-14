@@ -1,0 +1,32 @@
+ 
+class Solution{
+	public:
+	int NthRoot(int n, int m)
+	{
+	    // Code here.
+	    int i=0,j=m;
+	    while(i<=j)
+	    {
+	        int mid=i+(j-i)/2;
+	        long long temp=1,x=n;
+	        while(temp<=m && x>0)      //pow(mid,n)
+	        {
+	            temp*=mid;
+	            x--;
+	        }
+	        if(temp==m)
+	        {
+	            return mid;
+	        }
+	        else if(temp<m)
+	        {
+	            i=mid+1;
+	        }
+	        else
+	        {
+	            j=mid-1;
+	        }
+	    }
+	    return -1;
+	}  
+};
