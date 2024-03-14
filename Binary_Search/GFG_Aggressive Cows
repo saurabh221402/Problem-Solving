@@ -1,0 +1,50 @@
+class Solution {
+private:
+    bool is_possible_min_diff(vector<int>& v,int diff,int cow,int n)
+    {
+        int temp,c=1,prev=v[0];
+        for(int i=1;i<n;i++)
+        {
+            temp=v[i]-prev;
+            if(temp>=diff)
+            {
+                prev=v[i];
+                c++;
+            }
+            if(c==cow)
+            {
+                return 1;
+            }
+        }
+    //    cout<<v[diff]<<" "<<c<<" ";
+        
+        return 0;
+    }
+public:
+
+    int solve(int n, int k, vector<int> &stalls) {
+    
+        // Write your code here
+        sort(stalls.begin(),stalls.end());
+        int beg_pos=0,end_pos=stalls[n-1];
+        int max_diff=1,temp,min_diff;
+        
+        while(beg_pos<=end_pos)
+        {
+            int min_diff =beg_pos+(end_pos-beg_pos)/2;
+            
+            if(is_possible_min_diff(stalls,min_diff,k,n))
+            {
+                temp=min_diff;
+                beg_pos=min_diff+1;
+                max_diff=max(max_diff,temp);
+            }
+            else
+            {
+                end_pos=min_diff-1;
+            }
+            
+        }
+        return max_diff;
+    }
+};
