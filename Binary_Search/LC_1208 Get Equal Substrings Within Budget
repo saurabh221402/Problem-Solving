@@ -1,0 +1,26 @@
+using Sliding Window
+
+class Solution {
+public:
+int equalSubstring(string s, string t, int maxCost) {
+  int n=s.size(),ans=0,temp=0;
+
+  for(int i=0,j=0;i<n;i++)
+  {
+      temp+=abs(s[i]-t[i]);
+      if(maxCost>=temp)
+      { 
+          ans=max(ans,i-j+1); 
+      } 
+      else
+      {
+          while(temp>maxCost)
+          {
+              temp-=(abs(s[j]-t[j])); 
+              j++;
+          }
+      } 
+  }
+  return ans;
+}
+};
