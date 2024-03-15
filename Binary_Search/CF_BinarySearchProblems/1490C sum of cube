@@ -1,0 +1,83 @@
+You are given a positive integer 𝑥. Check whether the number 𝑥 is representable as the sum of the cubes of two positive integers.
+Formally, you need to check if there are two integers 𝑎 and 𝑏 (1≤𝑎,𝑏) such that 𝑎3+𝑏3=𝑥.
+For example, if 𝑥=35, then the numbers 𝑎=2 and 𝑏=3 are suitable (23+33=8+27=35). If 𝑥=4, then no pair of numbers 𝑎 and 𝑏 is suitable.
+
+apply binary search
+1. search space : 
+              𝑥 (1≤𝑥≤10^12)  and (a,b) should positive number.
+              so, min a and b can is 1 and max pow(10,12/3)= 10^4;
+              hence search space lowerbound=1 to upperbound=min(cbrt(x),10^4);
+
+2.key: here we choose A from search space iterative O(upperbound) and find b using BS taking remain_val as key;
+        remain_val=x-a*a*a  
+
+3.condition to get the right direction :
+      check mid cube equal to remain_val 
+                        *if yes then return mid
+                        *if less then remain_val go for larger value by shifting i=mid+1
+                        *if greater then remain_val go for smaller value by shifting j=mid-1;
+
+4.code:
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool is_b_possible(long long val)
+{
+long long i=1,j=cbrt(val)+1;
+while(i<=j)
+{
+    long long mid=i+(j-i)/2;
+    long long cube=mid*mid*mid;
+    if(cube==val)
+    {
+        return 1;
+    }
+    else if(cube<val)
+    {
+        i=mid+1;
+    }
+    else
+    {
+        j=mid-1;
+    }
+}
+return 0;
+}
+ 
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        long long x;
+        cin>>x;
+        int i=1,j=cbrt(x),flag=0;
+        //cout<<j<<".";
+        for(long long a=1;a<=j;a++)
+        {
+            long long val_a=a*a*a;
+            long long remain_val=x-val_a;
+            if(is_b_possible(remain_val))
+            {
+                flag=1;
+                break;
+            }
+        }
+        
+        if(flag)
+        cout<<"YES"<<endl;
+        else
+        cout<<"NO"<<endl;
+    }
+    
+  return 0;
+}
+
+5. Coplexity:
+*Time
+  O(upperbound * log(cbrt(remain_val))
+*Space
+  O(1)
+  
