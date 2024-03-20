@@ -1,0 +1,64 @@
+//lenear solution (O(n*m)) with extra space occur TLE so,we apply binary search
+int Solution::findMedian(vector<vector<int> > &A) {
+    int n=A.size(),m=A[0].size(),tot=n*m;
+    int temp1,temp2,x, c=0,maxx=INT_MAX;
+    vector<int> idx(n,0);
+    if(tot%2==0)
+    {
+        int med_idx1=tot/2+1;
+        int med_idx2=tot/2;
+        while(1)
+        {
+            for(int i=0;i<n;i++)
+            {
+                if(idx[i]<m)
+                if(maxx>=A[i][idx[i]])
+                { 
+                    maxx=A[i][idx[i]];
+                    x=i;
+                }
+                
+            }
+           // cout<<A[x][idx[x]]<<" ";
+            c++;
+            if(c==med_idx2)temp1=A[x][idx[x]];
+            if(c==med_idx1){
+                temp2=A[x][idx[x]]; 
+                break;
+            }
+            idx[x]++;
+        }
+        return (temp1+temp2)/2;
+    }
+    else
+    {
+        int med_idx=tot/2+1; 
+        while(1)
+        {
+            for(int i=0;i<n;i++)
+            {
+                if(idx[i]<m)
+                if(maxx>=A[i][idx[i]])
+                { 
+                    maxx=A[i][idx[i]];
+                    x=i;
+                   // cout<<A[x][idx[x]]<<" ";
+                } 
+                
+            }
+            
+            c++;
+            if(c==med_idx){
+                    temp2=A[x][idx[x]]; 
+                    break;
+                }
+                maxx=INT_MAX;
+               // cout<<A[x][idx[x]]<<" .";
+            idx[x]++;
+           // 
+        }
+        return temp2;
+    }
+}
+
+binary search ...
