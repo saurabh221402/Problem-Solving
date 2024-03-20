@@ -1,0 +1,65 @@
+T.C O(log(n*m)) using binary search
+
+ class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n=matrix.size(),m=matrix[0].size();
+        int j=0,cj=n*m-1;
+        //time complexity log(m*n); 
+        while(j<=cj)
+        {
+            int midj=j+(cj-j)/2;
+            int r=midj/m,c=midj%m;
+            if(matrix[r][c]==target)
+            {
+                return 1;
+            }
+            else if(matrix[r][c]<=target)
+            {
+                j=midj+1;
+            }
+            else
+            {
+                cj=midj-1;
+            }
+        }
+        return 0;
+    }
+};
+
+2nd version if this condition is given (The first integer of each row is greater than the last integer of the previous row.)
+then we have to apply binary search for each column whose top element is smaller than equal to target
+
+T.C : O(n*log(m))
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n=matrix.size(),m=matrix[0].size();
+        int j=0,cj=n-1;
+        //time complexity m*log(n);
+        for(int midi=m-1;midi>=0;midi--){
+            if(matrix[0][midi]<=target){
+                j=0,cj=n-1;
+                while(j<=cj)
+                {
+                    int midj=j+(cj-j)/2;
+                    if(matrix[midj][midi]==target)
+                    {
+                        return 1;
+                    }
+                    else if(matrix[midj][midi]<=target)
+                    {
+                        j=midj+1;
+                    }
+                    else
+                    {
+                        cj=midj-1;
+                    }
+                }
+            } 
+        } 
+        return 0;
+    }
+};
+
