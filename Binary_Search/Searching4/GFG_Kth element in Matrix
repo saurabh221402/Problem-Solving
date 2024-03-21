@@ -1,0 +1,33 @@
+ // T.C : O(k)
+int kthSmallest(int A[MAX][MAX], int n, int k)
+{
+  //Your code here 
+    int temp,x, c=0,maxx=INT_MAX;
+    vector<int> idx(n,0); 
+    while(1)
+    {
+        for(int i=0;i<n;i++)
+        {
+            if(idx[i]<n)
+            if(maxx>=A[i][idx[i]])
+            { 
+                maxx=A[i][idx[i]];
+                x=i; 
+            } 
+            
+        }
+        
+        c++;
+        if(c==k)
+        {
+                temp=A[x][idx[x]]; 
+                break;
+        }
+        maxx=INT_MAX; 
+        idx[x]++; 
+    }
+        return temp;
+}
+
+
+//now we apply binary search
