@@ -1,0 +1,55 @@
+how many numbers from 1 to num are divisible by either a, b or c  *is itersection
+n(a U b U c) = n(a) + n(b) + n(c) - n(a is b) - n(a is c) - n(b is c) + n(a is b is c)
+which can find using
+(num / a) + (num / b) + (num / c) – (num / lcm(a, b)) – (num / lcm(b, c)) – (num / lcm(a, c)) + (num / lcm(a, b, c)) 
+
+
+ #include<iostream>
+ #include<algorithm>
+using namespace std;
+  
+int gcd(int a, int b)
+{
+    if (a == 0)
+        return b;
+ 
+    return gcd(b % a, a);
+} 
+int lcm(int a, int b)
+{
+    return (a * b) / gcd(a, b);
+}
+  
+int check(int a, int b, int c, int num,int n)
+{ 
+    int count= ((num / a) + (num / b) + (num / c)
+            - (num / lcm(a, b))
+            - (num / lcm(b, c))
+            - (num / lcm(a, c))
+            + (num / lcm(a, lcm(b, c))));
+    return count<n;
+} 
+int findNthTerm(int a, int b, int c, int n)
+{
+ 
+    //search space
+    int i = 1, j = max(c,max(a,b))*n, mid;
+ 
+    while (i < j) {
+        mid = i + (j-i) / 2; 
+        if (check(a, b, c, mid,n))  //ifTotalDivCount is greater then n for for n th term
+            i = mid + 1; 
+        else
+            j = mid;
+    }
+ 
+    return i;
+} 
+int main()
+{
+    int a = 2, b = 3, c = 5, n = 9;
+ 
+    cout << findNthTerm(a, b, c, n);
+ 
+    return 0;
+}
