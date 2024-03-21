@@ -1,0 +1,49 @@
+T.C : O(k) using two pointer 
+#include<bits/stdc++.h>
+using namespace std;
+int kthElement(vector<int> &A, vector<int>& B, int n, int m, int k){
+    // Write your code here
+    int temp,x, c=0,maxx=INT_MAX,idx_a=0,idx_b=0; 
+    while(1)
+    { 
+        if(idx_a<n)
+        if(maxx>=A[idx_a])
+        { 
+            maxx=A[idx_a];
+            x=1; 
+        }
+        if(idx_b<m)
+        if(maxx>=B[idx_b])
+        { 
+            maxx=B[idx_b];
+            x=0; 
+        }
+        
+        c++;
+        if(c==k)
+        {
+            if(x)
+            temp=A[idx_a];
+            else
+            temp=B[idx_b];
+            break;
+        }
+        maxx=INT_MAX; 
+        if(x)
+        idx_a++;
+        else
+        idx_b++;
+    }
+        return temp;
+}
+
+using Binary Search T.C : O(log(m+n))
+//code
+
+
+
+optimising binary search T.C: O(log(k))
+//code
+
+
+
