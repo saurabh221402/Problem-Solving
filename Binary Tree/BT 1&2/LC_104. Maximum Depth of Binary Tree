@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int solve(TreeNode* r)
+    {
+        if(!r)
+        {
+            return 0;
+        }
+        return 1+max(solve(r->left),solve(r->right));
+    }
+    int maxDepth(TreeNode* root) {
+        int ans=solve(root);
+        return ans;
+    }
+};
