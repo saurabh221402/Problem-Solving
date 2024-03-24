@@ -1,0 +1,37 @@
+class Solution{
+  public: 
+    int getLevelDiff(Node *root)
+    {
+       //Your code here
+       int sumEven=0,sumOdd=0;
+       queue<pair<Node*,int>> q;
+       q.push({root,1});
+       
+       while(!q.empty())
+       {
+           int level=q.front().second;
+           Node* node=q.front().first;
+           
+           if(level%2==0)
+           {
+               sumEven+=(node->data);
+           }
+           else
+           {
+               sumOdd+=(node->data);
+           }
+           
+           if(node->left)
+           q.push({node->left,level+1});
+           if(node->right)
+           q.push({node->right,level+1});
+           
+           q.pop();
+       }
+       
+       return sumOdd-sumEven;
+    }
+};
+
+T.C : O(N)
+S.C : O(N)
