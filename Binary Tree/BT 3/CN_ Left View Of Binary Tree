@@ -9,7 +9,7 @@ Storing all the node of tree level wise by using BFS traversal with  help of que
 ############################################################################################################################
 Complexity
 T.C : O(N)for bfs traversal + O(H) for returning 1st element of each level ->O(N+H)
-S.C :O(N)storing all node + O(H) for queue + O(H) for return left view ->O(N+2H)
+S.C :O(N)storing all node + O(2^H) for queue + O(H) for return left view ->O(N+2H)
 
 ############################################################################################################################
 CODE
