@@ -1,0 +1,63 @@
+Problem statement
+You have been given a Binary Tree of 'n' nodes, where the nodes have integer values
+Print the left view of the binary tree.
+
+###########################################################################################################################
+Intitution||Approach
+Storing all the node of tree level wise by using BFS traversal with  help of queue d.s and then returning the first value of each level.
+
+############################################################################################################################
+Complexity
+T.C : O(N)for bfs traversal + O(H) for returning 1st element of each level ->O(N+H)
+S.C :O(N)storing all node + O(H) for queue + O(H) for return left view ->O(N+2H)
+
+############################################################################################################################
+CODE
+
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<vector<int>> solve(BinaryTreeNode<int>* root)
+{
+    vector<vector<int>> ans; 
+    queue<BinaryTreeNode<int>*> q;
+
+    q.push(root);
+
+    while(!q.empty())
+    {
+        //store the size of each level
+        int size=q.size();
+        vector<int> temp;
+        while(size--)
+        {
+            BinaryTreeNode<int>* node=q.front();
+            //value in node
+            temp.push_back(node->data); 
+            //insert left and right node of node
+            if(node->left)
+            q.push(node->left);
+            if(node->right)
+            q.push(node->right);
+            //delete node
+            q.pop();
+        }
+        ans.push_back(temp);
+    }
+    return ans;
+}
+vector<int> printLeftView(BinaryTreeNode<int>* root) {
+    // Write your code here.
+    vector<vector<int>> ans; 
+    vector<int> v;
+    ans=solve(root);
+    int n=ans.size();
+    for (int i = 0; i < n; i++) {
+        int x = ans[i].size() - 1; 
+//storing first element of each level
+        v.push_back(ans[i][0]);
+    }
+    return v;
+}
+
+############################################################################################################################
