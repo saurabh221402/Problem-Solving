@@ -1,0 +1,55 @@
+
+###################################################################################################################################
+*> BFS using queue
+T.C : O(min(n,m))
+S.C : O(min(n,m)) ?
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        queue<TreeNode*> qq1;
+        qq1.push(p);
+        qq1.push(q);
+        while((!qq1.empty()))
+        {
+            TreeNode* node1=qq1.front();
+            qq1.pop();
+            TreeNode* node2=qq1.front();
+            qq1.pop(); 
+            if((!node1) && (!node2))
+            {
+                continue;
+            }
+            if((!node1) || (!node2))
+            return 0;
+            if(node1->val != node2->val)
+            {
+                return 0;
+            } 
+
+            qq1.push(node1->left); 
+            qq1.push(node2->left); 
+            qq1.push(node1->right); 
+            qq1.push(node2->right);
+        } 
+        return 1;
+    }
+};
+
+###################################################################################################################################
+*> DFS using recursion
+T.C : O(min(n,m))
+S.C : O(min(h1,h2))
+ 
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+         
+        if(!(p) && !(q))return 1;
+        if((!p) || (!q))return 0;
+        if(p->val != q->val)return 0;
+
+        return isSameTree(p->left,q->left)&&isSameTree(p->right,q->right);
+    }
+};
+
+###################################################################################################################################
