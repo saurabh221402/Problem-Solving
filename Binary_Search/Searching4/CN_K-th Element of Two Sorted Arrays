@@ -1,3 +1,5 @@
+
+##################################################################################################################
 T.C : O(k) using two pointer 
 #include<bits/stdc++.h>
 using namespace std;
@@ -37,9 +39,40 @@ int kthElement(vector<int> &A, vector<int>& B, int n, int m, int k){
         return temp;
 }
 
+##################################################################################################################
 using Binary Search T.C : O(log(m+n))
 //code
-
+class Solution{
+public:
+    int kthElement(int arr1[], int arr2[], int n, int m, int k)
+    {  
+        if(n > m)
+        return kthElement(arr2, arr1, m, n, k);
+    
+    int start = max(0, k - m), end = min(k, n);
+    
+    while(start <= end) {
+        int mid1 = start + (end - start) / 2;
+        int mid2 = k - mid1;
+        
+        int s1 = (mid1 > 0) ? arr1[mid1 - 1] : INT_MIN;
+        int s2 = (mid2 > 0) ? arr2[mid2 - 1] : INT_MIN;
+        int e1 = (mid1 < n) ? arr1[mid1] : INT_MAX;
+        int e2 = (mid2 < m) ? arr2[mid2] : INT_MAX;
+        
+        if (s1 <= e2 && s2 <= e1) {
+            return max(s1, s2);
+        }
+        else if (s1 > e2) {
+            end = mid1 - 1;
+        }
+        else {
+            start = mid1 + 1;
+        }
+    }
+    return -1;
+    }
+};
 
 
 optimising binary search T.C: O(log(k))
