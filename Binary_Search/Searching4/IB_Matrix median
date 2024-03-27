@@ -1,4 +1,8 @@
-//lenear solution (O(n*m)) with extra space occur TLE so,we apply binary search
+#####################################################################################################################
+//lenear solution (O(n*m)) with extra space using n pointer occur TLE so,we apply binary search
+T.C: O((N*M)/2)
+S.C: O(N) //storing n pointer
+
 int Solution::findMedian(vector<vector<int> > &A) {
     int n=A.size(),m=A[0].size(),tot=n*m;
     int temp1,temp2,x, c=0,maxx=INT_MAX;
@@ -61,4 +65,51 @@ int Solution::findMedian(vector<vector<int> > &A) {
     }
 }
 
-binary search ...
+#####################################################################################################################
+Using binary search
+T.C : O(log(INT_MAX)) * O(N*log(M))   // optimise : O(log(max_ele-min_ele)) * (N*log(M)))
+S.C : O(1)
+
+int check(vector<vector<int>> &A,int mid,int median)
+{
+    int n=A.size(),m=A[0].size(),c=0,x,y;
+    for(int i=0;i<n;i++)
+        {
+            x=0,y=m-1;
+            while(x<=y)
+            {
+                int mm=(x+y)>>1;
+                if(A[i][mm]<=mid)
+                {
+                    x=mm+1;
+                }
+                else
+                {
+                    y=mm-1;
+                }
+            }
+            c+=x;
+        }
+        return c;
+}
+int Solution::findMedian(vector<vector<int> > &A) {
+    int n=A.size(),m=A[0].size(),tot=n*m;
+    int low=1,high=INT_MAX,median=tot/2+1,ans ;
+//we can optimise search space find min_element & max_element in whole matrix
+    
+    while(low<=high)
+    {
+        int mid=(low+high)>>1;
+         
+        if(check(A,mid,median)>=median)
+        {
+            ans=mid;
+            high=mid-1;
+        }
+        else
+        {
+            low=mid+1;
+        }
+    } 
+    return ans; 
+}
