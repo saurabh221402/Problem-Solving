@@ -1,4 +1,9 @@
- // T.C : O(k)
+
+########################################################################################################################
+by using n pointer approach
+// T.C : O(k)
+// S.C : O(n)
+
 int kthSmallest(int A[MAX][MAX], int n, int k)
 {
   //Your code here 
@@ -29,5 +34,58 @@ int kthSmallest(int A[MAX][MAX], int n, int k)
         return temp;
 }
 
-
+########################################################################################################################
 //now we apply binary search
+T.C : O(log(max_element-min_element) * N*log(M))
+S.C : O(1)
+
+int check(int mat[MAX][MAX],int m,int n)
+{
+    int c=0;
+    for(int i=0;i<n;i++)
+    {
+        int x=0,y=n-1;
+        while(x<=y)
+        {
+            int mid=(x+y)>>1;
+            if(mat[i][mid]<=m)
+            {
+                x=mid+1;
+            }
+            else
+            {
+                y=mid-1;
+            }
+        }
+        c+=x;
+    }
+    //cout<<c<<" "<<m<<" ";
+    return c;
+}
+
+int kthSmallest(int mat[MAX][MAX], int n, int k)
+{
+  //Your code here
+  int low=INT_MAX,high=INT_MIN,ans=-1;
+  for(int i=0;i<n;i++){
+  low=min(low,mat[i][0]);
+  high=max(high,mat[i][n-1]);
+  }
+  
+  while(low<=high)
+  {
+      int mid=(low+high)>>1;
+      
+      if(check(mat,mid,n)>=k)
+      {
+          ans=mid;
+          high=mid-1;
+      }
+      else
+      {
+          low=mid+1;
+      }
+  }
+  
+  return ans;
+}
