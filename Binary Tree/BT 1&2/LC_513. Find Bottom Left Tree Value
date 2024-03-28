@@ -1,3 +1,5 @@
+#####################################################################################################
+Using BFS
 T.C : O(N)
 S.C : O(N)
 
@@ -26,6 +28,30 @@ public:
                 q.pop();
             }
         }
+        return ans;
+    }
+};
+
+#####################################################################################################
+Using DFS
+T.C : O(N)
+S.C : O(H)
+
+class Solution { 
+public:
+    int ans=0, temp=-1;
+    void dfs(TreeNode* node, int h){
+        if (!node) return;
+
+        if (h>temp){
+            ans=node->val;
+            temp=h;//temp update help to check only of left side of each level
+        } 
+        dfs(node->left, h+1);// Recursion uses system stack FILO
+        dfs(node->right, h+1);
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        dfs(root,0);
         return ans;
     }
 };
