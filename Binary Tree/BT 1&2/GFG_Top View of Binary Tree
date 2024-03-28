@@ -1,0 +1,38 @@
+##########################################################################################################
+T.C : O(N * log(N))
+S.C : O(N)
+
+class Solution
+{
+    public: 
+    vector<int> topView(Node *root)
+    { 
+        queue<pair<Node*,int>> q;
+        q.push({root,0});
+        //we can use only vector instead of both vector & map by finding height of tree and
+        //initialisg vector of size 2^H as non visited array
+        vector<int> ans;
+        map<int,int> m;
+        
+        while(!q.empty())
+        {
+            pair<Node*,int> p=q.front();
+            Node* node=p.first;
+            int idx=p.second;
+            q.pop();
+            
+            if(m.find(idx)==m.end())      
+            {
+                m[idx]=node->data;
+            }
+            
+            if(node->left)q.push({node->left,idx-1});
+            if(node->right)q.push({node->right,idx+1});
+        } 
+        for(auto x:m)
+        ans.push_back(x.second);
+        
+        return ans;
+    }
+
+};
