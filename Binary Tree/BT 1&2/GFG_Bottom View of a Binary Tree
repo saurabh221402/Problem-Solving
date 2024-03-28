@@ -1,0 +1,35 @@
+T.C : O(N * log(N))      //N for travesing and log(n) for insertion in map.
+S.C : O(N)               //O(2^H + 2^H)
+
+void bottomView(Node *root)
+{
+    if (root == NULL)
+        return; 
+    int hor_dis = 0; 
+//ordered map store in sorted as per key
+    map<int, int> m; 
+    queue<pair<Node *,int> q; 
+    q.push({root,hor_dis});  
+  
+    while (!q.empty())
+    {
+        pair<Node*,int> p=q.front();
+        Node *temp = p.first;
+        int val=p.second;
+        q.pop(); 
+  
+        m[val] = temp->data;
+  
+        if (temp->left != NULL)
+        { 
+            q.push({temp->left,val-1});
+        } 
+        if (temp->right != NULL)
+        { 
+            q.push({temp->right,val+1});
+        }
+    }
+  
+    for (auto i:m)
+        cout << i.second << " ";
+}
