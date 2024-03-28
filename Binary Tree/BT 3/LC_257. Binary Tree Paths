@@ -1,0 +1,23 @@
+T.C :O(N)
+S.C :O(H) //for recusive call stack + O(H * (N-1)/2) //for storing all paths
+class Solution {
+public: 
+    void solve(TreeNode* root,vector<string>& v,string s)
+    {
+        if(root->left==NULL&&root->right==NULL)
+        {
+            s+=to_string(root->val);
+            v.push_back(s);
+            return;
+        }
+        s+=to_string(root->val);
+        s+="->";
+        if(root->left)solve(root->left,v,s);
+        if(root->right)solve(root->right,v,s); 
+    }
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> v;
+        solve(root,v,"");
+        return v;
+    }
+};
