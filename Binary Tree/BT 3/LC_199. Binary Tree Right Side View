@@ -1,0 +1,62 @@
+Problem statement
+You have been given a Binary Tree of 'n' nodes, where the nodes have integer values
+Print the left view of the binary tree.
+
+###########################################################################################################################
+Intitution||Approach
+Storing all the node of tree level wise by using BFS traversal with  help of queue d.s and then returning the last value of each level.
+
+############################################################################################################################
+Complexity
+T.C : O(N)for bfs traversal + O(H) for returning 1st element of each level ->O(N+H)
+S.C :O(N)storing all node + O(2^H) for queue + O(H) for return left view ->O(N+2H)
+
+############################################################################################################################
+CODE
+
+class Solution {
+public:
+    vector<vector<int>> solve(TreeNode* root)
+    {
+        vector<vector<int>> ans; 
+        queue<TreeNode*> q;
+        if(!root)return ans;
+        q.push(root);
+
+        while(!q.empty())
+        {
+            //store the size of each level
+            int size=q.size();
+            vector<int> temp;
+            while(size--)
+            {
+                TreeNode* node=q.front();
+                //value in node
+                temp.push_back(node->val); 
+                //insert left and right node of node
+                if(node->left)
+                q.push(node->left);
+                if(node->right)
+                q.push(node->right);
+                //delete node
+                q.pop();
+            }
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        vector<vector<int>> v;
+        v=solve(root);
+        vector<int> ans;
+        int h=v.size();
+        for (int i = 0; i < h; i++) {
+        int x = v[i].size() - 1; 
+        //storing last element of each level
+        ans.push_back(v[i][x]);
+        }
+        return ans;
+    }
+};
+
+############################################################################################################################
