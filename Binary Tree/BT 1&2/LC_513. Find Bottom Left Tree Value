@@ -1,0 +1,31 @@
+T.C : O(N)
+S.C : O(N)
+
+class Solution { 
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        int ans=-1;
+        queue<TreeNode*> q; 
+        q.push(root);
+        while(!q.empty())
+        {
+            int size=q.size();
+            TreeNode* node=q.front();
+            ans=node->val;            ////Store first element of current level of tree
+            while(size--)
+            {
+                node=q.front();
+                if(node->left)
+                {
+                    q.push(node->left);
+                }
+                if(node->right)
+                {
+                    q.push(node->right);
+                }
+                q.pop();
+            }
+        }
+        return ans;
+    }
+};
