@@ -1,0 +1,19 @@
+T.C : O(N);
+S.C : O(H);
+
+class Solution {
+public:
+    void invert(TreeNode* r)
+    {
+        if(!r)return ;
+        TreeNode* temp=r->left;
+        r->left=r->right;
+        r->right=temp;
+        invert(r->left);
+        invert(r->right);
+    }
+    TreeNode* invertTree(TreeNode* root) {
+        invert(root);
+        return root;
+    }
+};
