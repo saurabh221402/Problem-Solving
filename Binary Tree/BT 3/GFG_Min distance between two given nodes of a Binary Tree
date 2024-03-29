@@ -1,0 +1,31 @@
+T.C : O(3*N)  //finding lca and finding distance
+S.C : O(H) //recusion call stack
+
+class Solution{
+    public: 
+//return the lowest intersection point
+    Node* lCS(Node* root, int p, int q) {
+        if (!root || root->data == p || root->data == q) return root;
+        
+        Node* left = lCS(root->left, p, q);
+        Node* right = lCS(root->right, p, q);
+        
+        if (left && right) return root;
+        return (left != NULL) ? left : right;
+    }
+//find distance from intersection point to give node value point
+    int distance(Node* root, int target, int dist) {
+        if (!root) return 0;
+        if (root->data == target) return dist ;
+        
+        return max(distance(root->left, target, dist + 1),distance(root->right, target, dist + 1));
+        
+    }
+    int findDist(Node* root, int p, int q) {
+        // Your code here
+        Node* lca = lCS(root, p, q);
+        int dist_p = distance(lca, p, 0);
+        int dist_q = distance(lca, q, 0);
+        return dist_p + dist_q;
+    }
+};
