@@ -1,5 +1,8 @@
+######################################################################################################################
 T.C : O(2 * N) //finding both path + O(N) //for finding first mismatch node
 S.C : O(H) //for recusive stack + O(2 * N) //for storing both path
+
+code:
 class Solution {
 public:
     bool solve(TreeNode* root, TreeNode* x,vector<TreeNode*>& v)
@@ -26,3 +29,27 @@ public:
         return ans;
     }
 };
+
+######################################################################################################################
+T.C : O(N)
+S.C : O(H)
+
+code:
+class Solution {
+public:
+    TreeNode* LCA(TreeNode* root, int p, int q) {
+        if (!root || root->val == p || root->val == q) return root;
+        
+        TreeNode* left = LCA(root->left, p, q);
+        TreeNode* right = LCA(root->right, p, q);
+        
+        if (left && right) return root;
+        return (left != NULL) ? left : right;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        TreeNode* ans=LCA(root,p->val,q->val); 
+        return ans;
+    }
+};
+
+######################################################################################################################
