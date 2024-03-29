@@ -1,0 +1,15 @@
+T.C : O(N)
+S.C : O(H)
+
+class Solution {
+public:
+    bool check(TreeNode* root,int targetSum)
+    {
+        if(!root)return 0;
+        if(targetSum==root->val&&root->left==NULL&&root->right==NULL)return 1;
+        return check(root->left,targetSum-root->val)||check(root->right,targetSum-root->val);
+    }
+    bool hasPathSum(TreeNode* root, int targetSum) { 
+        return check(root,targetSum);
+    }
+};
