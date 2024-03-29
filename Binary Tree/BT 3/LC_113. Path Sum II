@@ -1,0 +1,26 @@
+T.C : O(N*H)
+S.C : O(H + H*N/2)
+
+class Solution {
+private:
+    void solve(TreeNode* r,vector<vector<int>>& v,vector<int> temp,int tS)
+    {
+        if(!r)return ;
+        if(tS==r->val && (!r->left) && (!r->right))
+        {
+            temp.push_back(r->val);
+            v.push_back(temp);
+            return ;
+        }
+        temp.push_back(r->val);
+        solve(r->left,v,temp,tS-r->val);
+        solve(r->right,v,temp,tS-r->val); 
+    }
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int tS) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        solve(root,ans,temp,tS);
+        return ans;
+    }
+};
