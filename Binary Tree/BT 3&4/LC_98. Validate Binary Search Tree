@@ -1,0 +1,22 @@
+ 
+class Solution {
+public:
+    bool s(TreeNode* root,long max,long min)
+    {
+        if(root==NULL)
+        return true;
+        
+       //cout<<min<<" "<<root->val <<" "<<max<<" ";
+        if((min >= root->val) || (root->val >= max))
+        {
+           // cout<<min<<" "<<root->val <<" "<<max<<" ";
+             return false;
+        }
+        return s(root->left,root->val,min) && s(root->right,max,root->val) ;
+        return true;
+    }
+    bool isValidBST(TreeNode* root) {
+        
+        return s(root,2147483648,-2147483649);
+    }
+};
