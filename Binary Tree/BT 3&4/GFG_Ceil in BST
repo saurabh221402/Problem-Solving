@@ -1,0 +1,52 @@
+####################################################################################################
+T.C : O(H)
+S.C : O(H)
+
+int solve(Node* R,int x,int ans)
+{
+    if(!R)
+    {
+        return ans;
+    } 
+    if(R->data>=x){
+    ans=R->data;
+    solve(R->left,x,ans);
+    }
+    else
+    {
+    solve(R->right,x,ans);
+    }
+}
+int findCeil(Node* root, int input) {
+    if (root == NULL) return -1;
+    int ans=-1;
+    return solve(root,input,ans);
+    
+}
+
+
+####################################################################################################
+T.C : O(H)
+S.C : O(H)
+
+void solve(Node* R,int x,int& ans)
+{
+    if(!R)
+    {
+        return ;
+    } 
+    if(R->data>=x){
+    ans=R->data;
+    solve(R->left,x,ans);
+    }
+    else
+    {
+    solve(R->right,x,ans);
+    }
+}
+int findCeil(Node* root, int input) {
+    if (root == NULL) return -1;
+    int ans=-1;
+    solve(root,input,ans);
+    return ans;
+}
