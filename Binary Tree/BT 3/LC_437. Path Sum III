@@ -1,0 +1,34 @@
+#########################################################################################################################
+T.C : here we traverse each node of tree O(N) and perform some work using solve function in which we check all 
+possible path O(N) from node which can form targetsum.
+hence, 
+        T.C : O(N^2)
+
+S.C : O(H) -> O(N) for skew tree
+
+
+CODE :
+class Solution {
+public:
+long long ans=0;
+    int pathSum(TreeNode* root, int targetSum) {
+        if(root)
+        {
+            solve(root,targetSum);
+            pathSum(root->left,targetSum);
+            pathSum(root->right,targetSum);
+        }
+        return ans;
+    }
+    void solve(TreeNode* r,long long sum)
+    {
+        if(!r)return ;
+        if(sum==r->val)
+        {
+            ans++;
+        }
+        solve(r->left,sum-r->val);
+        solve(r->right,sum-r->val);
+    }
+};
+#########################################################################################################################
