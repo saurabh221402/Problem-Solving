@@ -1,0 +1,57 @@
+T.C : O(N*log(M))
+S.C : O(1)  || O(N+M) for input if consider
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int solve(vector<long long>& v2,int x)
+{
+    int i=0,j=v2.size()-1,count=0;
+    while(i<=j)
+    {
+        int mid=(i+j)>>1;
+        
+        if(v2[mid]<=x)
+        {
+            count=mid;
+            i=mid+1;
+        }
+        else
+        j=mid-1;
+    }
+    return count;
+}
+
+int main()
+{
+    //input format
+    int n,m,total_time,ans=0;
+    long long temp;
+    cin>>n>>m>>total_time;
+    vector<long long> v1,v2;
+    //prefix sum approach
+    v1.push_back(0);
+    v2.push_back(0);
+    for(int i=1;i<=n;i++)
+    {
+        cin>>temp;
+        v1.push_back(temp + v1[i-1]); 
+    }
+    for(int i=1;i<=m;i++)
+    {
+        cin>>temp;
+        v2.push_back(temp + v2[i-1]);
+    } 
+    
+    for(int i=0;i<=n;i++)
+    {
+        //here i mean stack2_book_count
+        long long remaining_time=total_time-v1[i]; 
+        if(remaining_time>=0){
+        int stack1_book_count=solve(v2,remaining_time); 
+        ans=max(ans,i+stack1_book_count);
+        }
+    }
+    cout<<ans;
+    return 0;
+}
