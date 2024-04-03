@@ -1,0 +1,39 @@
+######################################################################################################################
+T.C : O(N * log(N))
+  for traversing each node : O(N)
+  at each node performing insertion in map : log(N)
+  sorting at each column : O(N(log(N))
+S.C : O(N)
+  for map : O(N)
+  for recursive call stack : O(H) -> O(N) if skew tree
+######################################################################################################################
+CODE:
+
+class Solution {
+private: 
+void solve(TreeNode* rot,map<int,map<int,vector<int>>> &m,int r,int c)
+{
+    if(!rot)return ;
+    m[c][r].push_back(rot->val);
+    solve(rot->left,m,r+1,c-1);
+    solve(rot->right,m,r+1,c+1);
+}
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+         map<int,map<int,vector<int>>> m;
+        vector<vector<int>> result;
+        
+    solve(root,m,0,0);
+    for (auto& x : m) { // Traverse each column
+        vector<int> column;
+        for (auto& y : x.second) { // Traverse each row within the column
+            vector<int> nodes = y.second;
+            sort(nodes.begin(),nodes.end());
+            column.insert(column.end(), nodes.begin(), nodes.end());
+        }
+        result.push_back(column); // Push the constructed column into the result
+    }
+        return result;
+    }
+};
+######################################################################################################################
