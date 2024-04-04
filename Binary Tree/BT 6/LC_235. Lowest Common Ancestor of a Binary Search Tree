@@ -1,0 +1,55 @@
+##################################################################################################################
+First intitution : apply LCA
+T.C: O(N)
+S.C: O(1) 
+
+CODE:
+
+class Solution {
+private:
+    TreeNode* solve(TreeNode* r,TreeNode* p,TreeNode* q)
+    {
+        if(!r)return r;
+        if(r==p || r==q)return r;
+ 
+        TreeNode* left=solve(r->left,p,q);
+        TreeNode* right=solve(r->right,p,q);
+
+        if(left && right)return r;
+
+        if(!left)return right;
+        return left;
+    }
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        return solve(root,p,q);
+    }
+};
+
+
+##################################################################################################################
+Optimal intitution : in case BST the LCA node must be >= than left node and <= right node
+T.C: O(H) Optimal
+S.C: O(1)
+
+CODE:
+class Solution {
+private:
+    TreeNode* solve(TreeNode* r,TreeNode* p,TreeNode* q)
+    {
+        if(!r)return 0; 
+
+        if(r->val>p->val && r->val>q->val)
+        return solve(r->left,p,q);
+        if(r->val<p->val && r->val<q->val)
+        return solve(r->right,p,q);
+
+        return r;
+    }
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        return solve(root,p,q);
+    }
+};
+
+##################################################################################################################
