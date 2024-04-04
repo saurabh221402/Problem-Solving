@@ -1,0 +1,31 @@
+###################################################################################################################
+T.C : O(N* log(N))
+S.C : O(N+H) can optimise in space 
+
+CODE:
+
+class Solution {
+private:
+    TreeNode* solve(vector<int>& v,int i,int j)
+    {
+         int mid=(i+j)>>1;
+         if(i>j)
+         {
+            return 0;
+         } 
+            TreeNode* newNode=new TreeNode;
+            newNode->val=v[mid];
+            newNode->left=solve(v,i,mid-1);
+            newNode->right=solve(v,mid+1,j);
+         
+            return newNode;
+    }
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        vector<int> v;
+        while(head){v.push_back(head->val);head=head->next;}
+        return solve(v,0,v.size()-1);
+    }
+};
+
+###################################################################################################################
