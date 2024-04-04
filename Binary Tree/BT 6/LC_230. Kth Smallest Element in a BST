@@ -1,0 +1,25 @@
+##################################################################################################################################
+Intution: perform inorder (it make BST into increasing order) and then find k th element
+T.C : O(N)
+S.C : O(H)
+##################################################################################################################################
+CODE:
+
+class Solution { 
+public: 
+    int ans=-1,h=0;
+    void solve(TreeNode* r,int k)
+    {
+        if(!r)return;
+        solve(r->left,k);
+        h++;
+        if(k==h){ 
+        ans=r->val;}
+        solve(r->right,k);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        solve(root,k);
+        return ans;
+    }
+};
+##################################################################################################################################
