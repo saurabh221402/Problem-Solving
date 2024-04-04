@@ -1,0 +1,34 @@
+########################################################################################################################
+T.C : O(N^2) traversing each node and performing is_bst operation which O(n) for each node;
+S.C : O(H) recursive call stack
+########################################################################################################################
+CODE:
+
+class Solution{
+    
+    bool isBst(Node* r,int mini,int maxi)
+    {
+        if(!r)return 1;
+        if(r->data<=mini || r->data>=maxi)return 0;
+        
+        return isBst(r->left,mini,r->data) && isBst(r->right,r->data,maxi);
+        
+    }
+    int size_of_bst(Node* r)
+    {
+        if(!r)return 0;
+        //if(r->left==NULL || r->right==NULL)return 0;
+        
+        return size_of_bst(r->left)+size_of_bst(r->right)+1;
+    }
+    public:
+    int largestBst(Node *root)
+    {
+        //Your code here
+        if(isBst(root,INT_MIN,INT_MAX))
+        {
+            return size_of_bst(root);
+        }
+        return max(largestBst(root->left),largestBst(root->right));
+    }
+};
