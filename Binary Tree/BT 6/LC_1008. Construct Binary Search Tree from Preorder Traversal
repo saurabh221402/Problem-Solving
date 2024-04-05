@@ -1,0 +1,37 @@
+#######################################################################################################################
+
+Explanation : https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/solutions/4977918/solve-1008-construct-binary-search-tree-from-preorder-traversal-with-pure-dfs-without-any-ds
+T.C : O(n*log(n))
+S.C :O(H)
+
+CODE:
+ 
+class Solution {  
+private:
+    int findright(vector<int>& v,int i,int j)
+    {
+        for(int x=i;x<=j;x++)
+        {
+            if(v[x]>v[i])return x;
+        }
+        return j+1;
+    }
+    TreeNode* solve(vector<int>& v,int i,int j)
+    {
+        if(i>j)return NULL;
+
+        int k=findright(v,i,j);
+
+        TreeNode* newNode=new TreeNode(v[i]);
+        
+        newNode->left=solve(v,i+1,k-1);
+        newNode->right=solve(v,k,j);
+
+        return newNode;
+    }
+public:
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        
+        return solve(preorder,0,preorder.size()-1);
+    }
+};
