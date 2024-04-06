@@ -1,0 +1,53 @@
+####################################################################################################################################
+T.C : O(H) leftview + O(N) botView + O(H) rightView
+S.C : O(H) recusive call stack + O(N) answer storing in wrost case ^
+####################################################################################################################################
+CODE:
+
+vector<int> v; //global declare;
+
+void leftview(TreeNode<int> *root)
+{
+    
+    while(root && (root->left || root->right))
+    {
+        v.push_back(root->data);
+
+        if(!root->left)root=root->right;
+        else root=root->left;
+    }
+}
+
+void botView(TreeNode<int> *root)
+{
+    if(!root)return ;
+    if(!root->left && !root->right)v.push_back(root->data);
+    botView(root->left);
+    botView(root->right);
+}
+
+void rightView(TreeNode<int> *root)
+{
+    vector<int> temp;
+    while(root && (root->left || root->right))
+    {
+        temp.push_back(root->data);
+        if(!root->right)root=root->left;
+        else root=root->right;
+    }
+    for(int i=temp.size()-1;i>=0;i--)
+    v.push_back(temp[i]);
+}
+
+vector<int> traverseBoundary(TreeNode<int> *root)
+{ 
+    if(!root)return v;
+    v.push_back(root->data);
+
+    leftview(root->left);
+    botView(root);
+    rightView(root->right);
+
+    return v;
+}
+####################################################################################################################################
