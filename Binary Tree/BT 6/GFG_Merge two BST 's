@@ -1,0 +1,57 @@
+#######################################################################################################################################
+T.C : O(2 * (N1+N2))
+S.C : O(H + (2 * (N1 + N2))) 
+#######################################################################################################################################
+CODE:
+
+class Solution
+{
+    private:
+    void inorder(Node* r,vector<int>& v)
+    {
+        if(!r)return ;
+        inorder(r->left,v);
+        v.push_back(r->data);
+        inorder(r->right,v);
+    }
+    void merge(vector<int>& v1,vector<int>& v2,vector<int>& ans)
+    {
+        int n1=v1.size(),n2=v2.size(),i,j;
+        for(i=0,j=0;i<n1&&j<n2;)
+        {
+            if(v1[i]<v2[j])
+            {
+                ans.push_back(v1[i]);
+                i++;
+            }
+            else
+            {
+                ans.push_back(v2[j]);
+                j++;
+            }
+        }
+        while(i<n1)
+        {
+            ans.push_back(v1[i]);
+            i++;
+        }
+        while(j<n2)
+        {
+            ans.push_back(v2[j]);
+            j++;
+        }
+    }
+
+    public: 
+    vector<int> merge(Node *root1, Node *root2)
+    {
+       //Your code here
+       vector<int> bst1_in,bst2_in,ans;
+       inorder(root1,bst1_in);
+       inorder(root2,bst2_in);
+       merge(bst1_in,bst2_in,ans);
+       return ans;
+    }
+};
+
+################################################################################################################################
