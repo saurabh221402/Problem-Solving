@@ -1,0 +1,25 @@
+##########################################################################################################################
+Approach: preorder traversal
+T.C : O(N)
+S.C : O(H)
+##########################################################################################################################
+CODE:
+
+class Solution {
+private:
+    void solve(TreeNode* r,int i,int j,int &ans)
+    {
+        if(!r)return;
+        solve(r->left,i,j,ans);
+        solve(r->right,i,j,ans);
+        if(r->val>=i && r->val<=j)ans+=r->val;
+    }
+public:
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        int ans=0;
+        solve(root,low,high,ans);
+        return ans;
+    }
+};
+
+##########################################################################################################################
