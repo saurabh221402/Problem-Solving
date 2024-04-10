@@ -1,0 +1,39 @@
+################################################################################################################
+T.C : O(N)
+S.C : O(H)
+################################################################################################################
+CODE:
+
+class Solution
+{
+  private:
+    Node *head=0,*next=0; 
+    void solve(Node* r)
+    {
+        if(!r)return ;
+         
+        solve(r->left);  
+        
+        if(!head){
+            head=r;
+            next=r;
+        }
+        else
+        {
+            next->right=r;
+            r->left=next;
+            next=r;
+        }
+        
+        solve(r->right);
+    }
+  public: 
+    Node *bTreeToCList(Node *root)
+    {
+        solve(root);
+        head->left=next;
+        next->right=head;
+        return head;
+    }
+};
+################################################################################################################
