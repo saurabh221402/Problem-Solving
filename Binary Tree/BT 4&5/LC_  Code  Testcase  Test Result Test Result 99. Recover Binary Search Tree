@@ -1,0 +1,53 @@
+############################################################################################################################
+T.C : O(N)
+S.C : O(N)
+############################################################################################################################
+
+CODE:
+class Solution {
+    TreeNode* prev=0,*first=0,*second=0;
+    int c=0;
+    void inorder(TreeNode* root){
+        if(!root)return ;
+        inorder(root->left); 
+ 
+        if(prev==0)
+        {
+            prev=root;
+        }
+        else
+        {
+            if(prev->val>root->val && c==0)
+            {
+                first=prev;
+                c++;
+            }
+            if(prev->val>root->val && c==1)
+            {
+                second=root;  
+            }
+            prev=root;
+        }
+
+        inorder(root->right);
+    }
+public:
+    void recoverTree(TreeNode* root) {
+        inorder(root);
+        //cout<<first->val<<" "<<second->val;
+        int temp;
+        if(second==0)
+        {
+            temp=first->val;
+            first->val=first->right->val;
+            first->right->val=temp;
+        }
+        else
+        {
+            temp=first->val;
+            first->val=second->val;
+            second->val=temp;
+        }
+    }
+};
+############################################################################################################################
