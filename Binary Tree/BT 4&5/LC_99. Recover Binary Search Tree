@@ -9,8 +9,7 @@ class Solution {
     int c=0;
     void inorder(TreeNode* root){
         if(!root)return ;
-        inorder(root->left); 
- 
+        inorder(root->left);  
         if(prev==0)
         {
             prev=root;
@@ -24,30 +23,21 @@ class Solution {
             }
             if(prev->val>root->val && c==1)
             {
-                second=root;  
+                second=root;  //it storing adjecent of first error node or store the second error node;
             }
             prev=root;
-        }
-
+        } 
         inorder(root->right);
     }
 public:
     void recoverTree(TreeNode* root) {
         inorder(root);
-        //cout<<first->val<<" "<<second->val;
+    //cout<<first->val<<" "<<second->val;
         int temp;
-        if(second==0)
-        {
-            temp=first->val;
-            first->val=first->right->val;
-            first->right->val=temp;
-        }
-        else
-        {
-            temp=first->val;
-            first->val=second->val;
-            second->val=temp;
-        }
+    //swap
+        temp=first->val;
+        first->val=second->val;
+        second->val=temp;
     }
 };
 ############################################################################################################################
