@@ -1,0 +1,62 @@
+################################################################################################################################
+T.C: O(length of word array * size of respective word * 26) + O(length of quary list * size of respective quarry word)
+S.C: O(N*M*(k<=N))
+################################################################################################################################
+CODE:
+
+ #include<bits/stdc++.h>
+ using namespace std;
+ 
+ struct TN{
+     struct TN* children[26];
+     vector<string> AC_word_idx;
+     bool isEnd;
+     
+     TN(){
+         for(int i=0;i<26;i++)children[i]=NULL;
+         AC_word_idx;
+         isEnd=false;
+     }
+ };
+ void insert(TN *root,string s)
+ {
+     TN* temp=root;
+     for(int i=0;i<s.size();i++)
+     {
+         int idx=s[i]-'a';
+         if(!temp->children[idx])temp->children[idx]=new TN();
+         temp=temp->children[idx];
+         temp->AC_word_idx.push_back(s);
+     }
+     temp->isEnd=true;
+ }
+ 
+ vector<string> search(TN* root,string s)
+ {
+    TN* temp=root;
+    for(int i=0;i<s.size();i++)
+    {
+        int idx=s[i]-'a';
+        if(!temp->children[idx])return {"Not found"};
+        temp=temp->children[idx];
+    }
+    return temp->AC_word_idx;
+ }
+ 
+ int main()
+ {
+     vector<string> words,qur,temp;
+     vector<vector<string>> ans;
+     words={"saurabh","saurya","ravi","ravikishan","rahul","suryansh"};
+     qur={"sa","su","rav","ravi","d"};
+     TN* root=new TN();
+     for(auto x:words)insert(root,x);
+     for(auto x:qur)ans.push_back(search(root,x));
+     for(int i=0;i<ans.size();i++)
+     {
+         for(auto str:ans[i])cout<<str<<" ";
+         cout<<endl;
+     }
+     return 0;
+ }
+################################################################################################################################
