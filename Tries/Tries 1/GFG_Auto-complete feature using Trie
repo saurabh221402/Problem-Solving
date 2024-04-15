@@ -2,6 +2,9 @@
 T.C: O(length of word array * size of respective word * 26) + O(length of quary list * size of respective quarry word)
 S.C: O(N*M*(k<=N))
 ################################################################################################################################
+Implemention of web project: https://github.com/saurabh221402/JS-BEGINNER-10
+LINk: https://saurabh221402.github.io/JS-BEGINNER-10/
+################################################################################################################################
 CODE:
 
  #include<bits/stdc++.h>
