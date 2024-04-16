@@ -1,0 +1,68 @@
+#####################################################################################################################################
+T.C: O(N*M)
+S.C: O(N*M)
+Approach: BFS
+#####################################################################################################################################
+CODE:
+
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        //Initialisation of all required variables & data structures
+        int n=grid.size(),m=grid[0].size(),ans=0;
+        queue<pair<pair<int,int>,int>> q;
+
+        //marking the position initial rotten oranges from where we can call bfs
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==2)
+                {
+                    q.push({{i,j},0});
+                }
+            }
+        }
+
+        //implementing bfs
+        while(!q.empty())
+        {
+            int i=q.front().first.first;
+            int j=q.front().first.second;
+            int c=q.front().second;
+           // cout<<i<<" "<<j<<" "<<c<<" ";
+            ans=max(ans,c);
+
+            int a[]={1,0,0,-1};
+            int b[]={0,1,-1,0};
+            for(int ii=0;ii<4;ii++)
+            {
+                int new_i=i+a[ii];
+                int new_j=j+b[ii];
+                if(new_i>=0&&new_i<n&&new_j>=0&&new_j<m&&grid[new_i][new_j]==1)
+                {
+                    q.push({{new_i,new_j},c+1});//counting time c+1
+                    grid[new_i][new_j]=2;//marking freash orages to rotten
+                }
+            }
+
+            q.pop();
+        }
+
+        //checking all oranges are rotten or not
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                   // cout<<i<<" "<<j;
+                    return -1;
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+#####################################################################################################################################
