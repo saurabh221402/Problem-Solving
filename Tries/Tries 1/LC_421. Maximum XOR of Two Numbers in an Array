@@ -1,0 +1,76 @@
+########################################################################################################################################
+T.C:O(32*N)for int_to_bit + O(32*N)inseartion +O(32*N)finding max_xor
+S.C:O(32*N)storing itn_to_bit + O(2*32*N)Trie ds 
+########################################################################################################################################
+CODE:
+
+class Solution {
+private:
+    struct Trie{
+        struct Trie* child[2]; 
+        Trie(){
+            child[0]=NULL,child[1]=NULL; 
+        }
+    };
+
+    void insert(Trie* root,string bit){
+        Trie* temp=root;
+        for(int i=0;i<32;i++)
+        {
+            int idx=bit[i]-'0';
+            if(!temp->child[idx])temp->child[idx]=new Trie();
+            temp=temp->child[idx];
+        } 
+    }
+
+    int find_max(Trie* root,string x)
+    {
+        Trie* temp=root;
+        int maxx=0;
+        for(int i=0;i<32;i++){
+            int idx=x[i]-'0';
+            int _idx=(!idx);
+                      
+            if(temp->child[(_idx)]){
+                maxx+=(pow(2,31-i));
+                temp=temp->child[(_idx)];
+            }
+            else{temp=temp->child[idx];} 
+        }
+        return maxx;
+    }
+
+    string int_to_bit(int x,string s)
+    { 
+        while(x)
+        {
+            s+=((x%2)+48);
+            x/=2;
+        }
+        int n=32-s.size();
+        while(n--)s+='0';
+        reverse(s.begin(),s.end());
+        return s;
+    }
+
+public:
+    int findMaximumXOR(vector<int>& nums) {
+        string bit="";
+        int n=nums.size(),ans=0;
+        vector<string> bits;
+
+        for(int i=0;i<n;i++)
+        {
+            string s=int_to_bit(nums[i],bit); 
+            bits.push_back(s);
+        }
+
+        Trie* root=new Trie();
+
+        for(auto x:bits){insert(root,x);}
+        for(auto x:bits){ans=max(ans,find_max(root,x));}
+
+        return ans;
+    }
+};
+########################################################################################################################################
