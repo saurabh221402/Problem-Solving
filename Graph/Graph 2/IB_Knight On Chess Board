@@ -1,0 +1,56 @@
+##################################################################################################################################
+DFS:  giving TLE
+
+void dfs(vector<vector<int>> &v,int i,int j,int c)
+{
+    if(i<0||i>=v.size()||j<0||j>=v[0].size()||c>=v[i][j]){return ;}
+    
+    v[i][j]=c;
+    
+    dfs(v,i-2,j+1,c+1);
+    dfs(v,i+2,j+1,c+1);
+    dfs(v,i-1,j+2,c+1);
+    dfs(v,i+1,j+2,c+1);
+    dfs(v,i-2,j-1,c+1);
+    dfs(v,i+2,j-1,c+1);
+    dfs(v,i-1,j-2,c+1);
+    dfs(v,i+1,j-2,c+1);
+}
+int Solution::knight(int A, int B, int C, int D, int E, int F) {
+    vector<vector<int>> min_move(A,vector<int> (B,INT_MAX));
+    
+    dfs(min_move,C-1,D-1,0);
+    
+    return ((min_move[E-1][F-1]==INT_MAX)?-1:min_move[E-1][F-1]);
+}
+##################################################################################################################################
+BFS: passed
+
+int Solution::knight(int A, int B, int C, int D, int E, int F) {
+    vector<vector<int>> min_move(A,vector<int> (B,INT_MAX));
+    vector<pair<int,int>> moves = {{-2,1},{-1,2},{1,2},{2,1},{-2,-1},{-1,-2},{1,-2},{2,-1}};
+    
+    queue<pair<int,int>> q;
+    q.push({C-1,D-1});
+    min_move[C-1][D-1]=0;
+    
+    while(!q.empty()){
+        auto [x,y]=q.front(); 
+        
+        for(auto [i,j]:moves)
+        {
+            int new_x=x+i;
+            int new_y=y+j;
+            
+            if(new_x>=0&&new_x<min_move.size()&&new_y>=0&&new_y<min_move[0].size()&&min_move[new_x][new_y]==INT_MAX)
+            {
+                q.push({new_x,new_y});
+                min_move[new_x][new_y]=min_move[x][y]+1;
+            } 
+        }
+        q.pop();
+    }
+    
+    return ((min_move[E-1][F-1]==INT_MAX)?-1:min_move[E-1][F-1]);
+}
+##################################################################################################################################
