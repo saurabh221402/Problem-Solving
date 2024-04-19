@@ -1,0 +1,75 @@
+
+
+ #include<bits/stdc++.h>
+ using namespace std;
+ void bfs_vis(int i,int j,int r,vector<vector<int>>& vis)
+{
+    vector<pair<int,int>> mov={{1,0},{1,-1},{1,1},{0,1},{0,-1},{-1,1},{-1,-1},{-1,0}};
+    int n=vis.size(),m=vis[0].size();
+    vector<vector<int>> temp(n,vector<int> (m,0));
+    queue<pair<int,int>> qq;
+    qq.push({i,j});
+    vis[i][j]=1;
+    temp[i][j]=1;
+    while(!qq.empty())
+    {
+        auto [x,y]=qq.front();
+        qq.pop();
+        
+        for(auto [p,q]:mov)
+        {
+            int dx=p+x;
+            int dy=q+y;
+            int dis=(abs(dx-i)*abs(dx-i) + abs(dy-j)*abs(dy-j));
+            
+            if(dx>=0 && dx<n && dy>=0 && dy<m && (dis<=r*r) && temp[dx][dy]==0)
+            { 
+                qq.push({dx,dy});
+                vis[dx][dy]=1;
+                temp[dx][dy]=1;
+            }
+        }
+    } 
+}
+
+bool bfs_check(int si,int sj,vector<vector<int>>& vis)
+{
+    vector<pair<int,int>> mov={{1,0},{1,-1},{1,1},{0,1},{0,-1},{-1,1},{-1,-1},{-1,0}};
+    int n=vis.size(),m=vis[0].size();
+    queue<pair<int,int>> qq;
+    qq.push({0,0});
+    if(vis[0][0]==1)return 0;
+    while(!qq.empty())
+    {
+        auto [x,y]=qq.front();
+        qq.pop();
+        
+        for(auto [p,q]:mov)
+        {
+            int dx=p+x;
+            int dy=q+y; 
+            
+            if(dx>=0&&dx<n&&dy>=0&&dy<m&&vis[dx][dy]==0)
+            { 
+                vis[dx][dy]=1;
+                qq.push({dx,dy}); 
+                if(dx==si && dy==sj)return 1;
+            }
+        }
+    }  
+    return 0;
+}
+
+string Solution::solve(int A, int B, int C, int D, vector<int> &E, vector<int> &F) {
+    vector<vector<int>> vis(A+1,vector<int> (B+1,0));
+    
+    for(int i=0;i<C;i++)
+    { 
+        bfs_vis(E[i],F[i],D,vis);
+    } 
+    
+    bool ans=bfs_check(A,B,vis);
+    
+    if(ans)return "YES";
+    else return "NO";
+}
