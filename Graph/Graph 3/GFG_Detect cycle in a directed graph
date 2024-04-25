@@ -1,0 +1,38 @@
+Using Topological sort (if there is cycle then topo sort is not possible hence the size of topo order list not equal to no. of vertice.
+
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        
+        vector<int> ans,indeg(V, 0); 
+
+        for(int i=0;i<V;i++)
+        {
+            for(auto x: adj[i]){ 
+            indeg[x]++;
+        }
+        }
+
+        queue<int> q;
+        for(int i = 0; i < V; i++){
+            if(indeg[i] == 0){
+                q.push(i);
+            }
+        }
+
+        while(!q.empty()){
+            auto t = q.front();
+            ans.push_back(t);
+            q.pop();
+
+            for(auto x: adj[t]){
+                indeg[x]--;
+                if(indeg[x] == 0){
+                    q.push(x);
+                }
+            }
+        }
+        return ans.size() != V;
+    }
+};
