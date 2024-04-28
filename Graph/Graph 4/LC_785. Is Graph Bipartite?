@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        queue<int> q;
+        int n=graph.size();
+        vector<int> c(n),vis(n,0);
+        for(int i=0;i<n;i++)
+        {
+            if(!vis[i])
+            {
+                q.push(i);
+                c[i]=0;
+                vis[i]=1;
+                while(!q.empty())
+                {
+                    int idx=q.front();
+                    int col=c[idx];
+                    q.pop();
+                    for(auto x:graph[idx])
+                    {
+                        if(!vis[x])
+                        {
+                            vis[x]=1;
+                            c[x]=(!col);
+                            q.push(x);
+                        }
+                        else if(c[x]==col)
+                        return 0;
+                    }
+                } 
+            }
+        }
+        return 1;
+    }
+};
