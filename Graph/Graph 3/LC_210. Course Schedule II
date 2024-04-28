@@ -1,0 +1,43 @@
+class Solution {
+public:
+    stack<int> st;
+    int flag=0;
+    void topo(vector<int> adj[],vector<int>& vis,int i)
+    {
+        vis[i]=1;
+        for(auto x:adj[i])
+        {
+           // cout<<x<<" ";
+            if(!vis[x])
+            { 
+                topo(adj,vis,x);
+            }
+            else if(vis[x]==1){flag=1;}
+        }
+        vis[i]=2;
+       // cout<<i<<" ";
+        st.push(i);
+    }
+    vector<int> findOrder(int numsCourses, vector<vector<int>>& prerequisites) {
+        vector<int> adj[numsCourses],vis(numsCourses,0),ans;
+        for(auto x:prerequisites)
+        {
+            adj[x[0]].push_back(x[1]);
+        }
+        for(int i=0;i<numsCourses;i++)
+        {
+            if(!vis[i])
+            {
+                topo(adj,vis,i);
+                if(flag==1)return ans;
+            }
+        } 
+        while(!st.empty())
+        {
+            ans.push_back(st.top());
+            st.pop();
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
