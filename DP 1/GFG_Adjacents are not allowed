@@ -1,0 +1,17 @@
+class Solution{
+public:
+    int maxSum(int N, vector<vector<int>> mat)
+    {
+        // initialise dp
+        vector<int> dp(N+1);
+        dp[0]=0;
+        dp[1]=max(mat[0][0],mat[1][0]);
+        
+        for(int i=2;i<=N;i++)
+        {
+            //state transition function
+            dp[i]=max(dp[i-1],dp[i-2]+max(mat[0][i-1],mat[1][i-1]));
+        }
+        return dp[N];
+    }
+};
