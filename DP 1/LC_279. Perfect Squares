@@ -1,0 +1,21 @@
+class Solution {
+private:
+    int solve(int x,int target,vector<vector<int>>& dp)
+    {
+        if(x==0)return INT_MAX-1;
+        if(target==0)return 0;
+
+        if(dp[x][target]!=-1)return dp[x][target];
+
+        if(target-pow(x,2)>=0)
+        return dp[x][target]=min(1+solve(x,target-pow(x,2),dp),solve(x-1,target,dp));
+        else
+        return dp[x][target]=solve(x-1,target,dp);
+    }
+public:
+    int numSquares(int n) {
+        int minSQ=sqrt(n);
+        vector<vector<int>> dp(minSQ+1,vector<int> (n+1,-1));
+        return solve(minSQ,n,dp);
+    }
+};
