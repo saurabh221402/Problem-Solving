@@ -1,0 +1,16 @@
+class Solution {
+private:
+    long long solve(vector<vector<int>>& v,int i,vector<long long>& dp)
+    {
+        if(i>=v.size())return 0;
+
+        if(dp[i]!=-1)return dp[i];
+
+        return dp[i] = max(v[i][0]+solve(v,i+v[i][1]+1,dp),solve(v,i+1,dp));
+    }
+public:
+    long long mostPoints(vector<vector<int>>& que) {
+        vector<long long> dp(que.size()+1,-1);
+        return solve(que,0,dp);
+    }
+};
