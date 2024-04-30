@@ -1,0 +1,19 @@
+class Solution
+{
+private:
+    int mod=1000000007;
+    long long solve(long long n,vector<int>& dp)
+    {
+        if(n==0 || n==1)return 1;
+        
+        if(dp[n] != -1)return dp[n];
+        
+        return dp[n] = (solve(n-1,dp)%mod + ((n-1)*solve(n-2,dp))%mod)%mod;
+    }
+public:
+    int countFriendsPairings(int n) 
+    {  
+        vector<int> dp(n+1,-1);
+        return solve(n,dp);
+    }
+}; 
