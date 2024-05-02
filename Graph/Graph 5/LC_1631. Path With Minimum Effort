@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int n=heights.size(),m=heights[0].size();
+        vector<vector<int>> effort(n,vector<int> (m,INT_MAX)),vis(n,vector<int> (m,0));
+
+        queue<pair<pair<int,int>,int>> q;
+        q.push({{0,0},0});
+        effort[0][0]=0;
+
+        int a[]={0,1,0,-1};
+        int b[]={1,0,-1,0};
+        while(!q.empty())
+        {
+            int x=q.front().first.first,y=q.front().first.second,efor=q.front().second;
+
+            for(int i=0;i<4;i++)
+            {
+                int dx=x+a[i],dy=y+b[i];
+                if(dx>=0&&dx<n&&dy>=0&&dy<m)
+                {
+                    vis[dx][dy]=1;
+                    int efor=abs(heights[x][y]-heights[dx][dy]);
+                    efor=max(efor,effort[x][y]);
+                    if(efor<effort[dx][dy])
+                    {
+                        effort[dx][dy]=efor;
+                        q.push({{dx,dy},efor});
+                    }   
+                }
+            }
+            q.pop();
+        }
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)cout<<effort[i][j]<<" ";
+            cout<<endl;
+        }
+        return effort[n-1][m-1];
+    }
+};
