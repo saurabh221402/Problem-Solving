@@ -1,0 +1,42 @@
+Approach: bounded BFS
+
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<pair<int,int>>> adj(n);
+        vector<int> dis(n,INT_MAX);
+        dis[src]=0;
+
+        for(int i=0;i<flights.size();i++)
+        {
+            adj[flights[i][0]].push_back({flights[i][1],flights[i][2]});
+        }
+
+        queue<pair<int,int>> q;
+        q.push({0,src});
+        k++;
+        while(k--)
+        {
+            int size=q.size();
+
+            while(size--)
+            {
+                int node=q.front().second;
+                int wt=q.front().first;
+               // cout<<wt<<" "<<node<<".";
+                for(auto x:adj[node])
+                {
+                    int newWt=wt+x.second;
+                    if(newWt<dis[x.first])
+                    {
+                        q.push({newWt,x.first});
+                        dis[x.first]=newWt;
+                    }
+                }
+                q.pop();
+            }
+        }
+      //  cout<<q.size();
+        return (dis[dst]==INT_MAX)?-1:dis[dst];
+    }
+};
