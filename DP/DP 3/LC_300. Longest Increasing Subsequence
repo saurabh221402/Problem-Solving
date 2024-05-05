@@ -1,6 +1,8 @@
 ######################################################################################################################
 Recursive solution :
+T.C : O(2^n)
 
+CODE:
 class Solution {
 public:
     
@@ -26,8 +28,10 @@ public:
 
 ######################################################################################################################
 Memoization solution :
+T.C : O(n*t) where n is the number of elements in the input array and t is the difference between the max and min values in the array.
+S.C : O(n*t) dp table.
 
-
+CODE:
 class Solution {
 public:
     
@@ -54,6 +58,7 @@ public:
             maxx=max(maxx,nums[i]);
             minn=min(minn,nums[i]);
         } 
+        // Determining the size of the dp table based on the range of values in the input array
         int size=maxx-minn+1;
         t=maxx+1;
         vector<vector<int>> dp(n+1,vector<int> (size+1,-1));
@@ -62,7 +67,10 @@ public:
 };
 ######################################################################################################################
 Tabulation solution :
+T.C : O(n^2)
+S.C : O(n) 
 
+CODE:
 class Solution { 
 public:
     int lengthOfLIS(vector<int>& nums) {
@@ -81,3 +89,11 @@ public:
     }
 };
 ######################################################################################################################
+Optimise Tabulation with the help of binary search :
+T.C : O(n*log(n))
+
+CODE:
+...
+
+######################################################################################################################
+
