@@ -1,0 +1,19 @@
+class Solution {
+private:
+    int memo(vector<int>& v,int i,int amount,vector<vector<int>>& dp,int c)
+    {
+        if(amount==0)return 0;
+        if(i==0 || amount<0 )return INT_MAX-1;
+        
+        if(dp[i][amount]!=-1)return dp[i][amount]; 
+        return dp[i][amount] = min(1+memo(v,i,amount-v[i-1],dp,c+1),memo(v,i-1,amount,dp,c)); 
+    }
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n=coins.size();
+        sort(coins.begin(),coins.end());
+        vector<vector<int>> dp(n+1,vector<int> (amount+1,-1));
+        int ans=memo(coins,n,amount,dp,0);
+        return (ans==INT_MAX-1)?-1:ans; 
+    }
+};
