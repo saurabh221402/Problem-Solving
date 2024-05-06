@@ -93,7 +93,47 @@ Optimise Tabulation with the help of binary search :
 T.C : O(n*log(n))
 
 CODE:
-...
+class Solution { 
+private:
+    int next_greater_than_numi(int x,vector<int>& da)
+    {
+        int i=0,j=da.size();
+        while(i<=j)
+        {
+            int mid=(i+j)/2;
+            if(da[mid]>=x)
+            {
+                j=mid-1;
+            }
+            else
+            {
+                i=mid+1;
+            }
+        }
+        return j+1;
+    }
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size(),ans=0;
+        vector<int> da;
+        da.push_back(nums[0]);
+        for (int i = 0; i < n; ++i)
+        {
+            if(nums[i]>da[da.size()-1])
+            {
+                da.push_back(nums[i]);
+            }
+            else
+            {
+                int idx=next_greater_than_numi(nums[i],da);
+                da[idx]=nums[i];
+            }
+            int len=da.size();
+            ans=max(ans,len);
+        }
+        return ans;
+    }
+};
 
 ######################################################################################################################
 
