@@ -1,0 +1,32 @@
+Approach: apply MST using prism algo by checking all possible connection between given coordinates
+
+CODE: 
+class Solution {
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n=points.size(),total=0;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+        vector<int> vis(n,0);
+        pq.push({0,0});
+        while(!pq.empty())
+        {
+            int cost=pq.top().first;
+            int curr=pq.top().second;
+           // cout<<cost<<" minncost.pick from ";
+            pq.pop();
+            if(!vis[curr]){
+            total+=cost;
+            vis[curr]=1;
+            for(int i=0;i<n;i++)
+            {
+               // cout<<vis[i]<<" ";
+                if(i==curr || vis[i])continue;
+                long long temp=abs(points[curr][0]-points[i][0])+abs(points[curr][1]-points[i][1]);
+                pq.push({temp,i});
+            }
+           // cout<<endl;
+            }
+        }
+        return total;
+    }
+};
