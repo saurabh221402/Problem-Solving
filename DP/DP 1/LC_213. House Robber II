@@ -1,0 +1,21 @@
+class Solution {
+private:
+    int solve(vector<int>& nums,int i,vector<int>& dp)
+    {
+        if(i>=nums.size())return 0;
+        if(dp[i]!=-1)return dp[i];
+        return dp[i]= max(solve(nums,i+1,dp),nums[i]+solve(nums,i+2,dp));
+    }
+public:
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        if(n==1)return nums[0];
+        vector<int> dp(n,-1),numss;
+        for(int i=1;i<n;i++)numss.push_back(nums[i]); 
+        int a=solve(numss,0,dp);
+        vector<int> dpp(n,-1); 
+        nums.pop_back();
+        int b=solve(nums,0,dpp);
+        return max(a,b);
+    }
+};
