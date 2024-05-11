@@ -1,0 +1,82 @@
+########################################################################################################################
+T.C: O(n^2)
+without using union by rank we have to find parent of each in O(n)
+
+CODE:
+class DSU{ 
+    vector<int> parent;
+    vector<int> rank;
+    public:
+    DSU(int n){
+        for(int i=0;i<=n;i++)parent.push_back(i);
+        for(int i=0;i<=n;i++)rank.push_back(0);
+    }
+    int find(int x)
+    {
+        if(x==parent[x])return x;
+        return find(parent[x]);
+    }
+    bool unionn(int a,int b)
+    {
+        auto ap=find(a),bp=find(b);
+        if(ap==bp)return 0;
+        if(rank[ap]>rank[bp])parent[bp]=parent[ap];
+        else if(rank[ap]<rank[bp])parent[ap]=parent[bp];
+        else parent[ap]=bp,rank[bp]++;
+        return 1;
+    }
+};
+class Solution { 
+public: 
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n=edges.size();
+        DSU dsu(n+1);
+        for(auto x:edges)
+        {
+            if(!dsu.unionn(x[0],x[1]))return x;
+        }
+        return {};
+    }
+};
+
+########################################################################################################################
+T.C: O(n)
+using union by rank
+
+CODE:
+class DSU{ 
+    vector<int> parent;
+    vector<int> rank;
+    public:
+    DSU(int n){
+        for(int i=0;i<=n;i++)parent.push_back(i);
+        for(int i=0;i<=n;i++)rank.push_back(0);
+    }
+    int find(int x)
+    {
+        if(x==parent[x])return x;
+        return find(parent[x]);
+    }
+    bool unionn(int a,int b)
+    {
+        auto ap=find(a),bp=find(b);
+        if(ap==bp)return 0;
+        if(rank[ap]>rank[bp])parent[bp]=parent[ap];
+        else if(rank[ap]<rank[bp])parent[ap]=parent[bp];
+        else parent[ap]=bp,rank[bp]++;
+        return 1;
+    }
+};
+class Solution { 
+public: 
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n=edges.size();
+        DSU dsu(n+1);
+        for(auto x:edges)
+        {
+            if(!dsu.unionn(x[0],x[1]))return x;
+        }
+        return {};
+    }
+};
+########################################################################################################################
