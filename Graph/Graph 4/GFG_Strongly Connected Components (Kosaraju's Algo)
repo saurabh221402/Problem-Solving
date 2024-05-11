@@ -1,0 +1,62 @@
+class Solution
+{
+	public:
+	void dfs(vector<vector<int>>& adj,int i,vector<int>& vis)
+	{
+	    vis[i]=1;
+	    for(auto x:adj[i])
+	    {
+	        if(!vis[x])
+	        {
+	            dfs(adj,x,vis);
+	        }
+	    }
+	}
+	void kdfs(vector<vector<int>>& adj,int i,vector<int>& vis,stack<int>& st)
+	{
+	    vis[i]=1;
+	    for(auto x:adj[i])
+	    {
+	        if(!vis[x])
+	        {
+	            kdfs(adj,x,vis,st);
+	        }
+	    }
+	    st.push(i);
+	}
+	//Function to find number of strongly connected components in the graph.
+    int kosaraju(int V, vector<vector<int>>& adj)
+    {
+        int n=adj.size(),c=0;
+        
+        //find the order of traversing of components
+        stack<int> st;
+        vector<int> vis(n,0);
+        for(int i=0;i<n;i++)
+        {
+            if(!vis[i])
+            kdfs(adj,i,vis,st);
+        }
+        
+        //reversing all the edges direction
+        vector<vector<int>> ad(n);
+        for(int i=0;i<n;i++)
+        {
+            for(auto x:adj[i])
+            {
+                ad[x].push_back(i);
+            }
+        }
+        
+        //finding no. of component
+        vector<int> viss(n,0);
+        for(int i=0;i<n;i++)
+        {
+            int node=st.top();
+            st.pop();
+            if(!viss[node]){c++;
+            dfs(ad,node,viss);}
+        }
+        return c;
+    }
+};
