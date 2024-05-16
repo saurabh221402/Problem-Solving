@@ -1,5 +1,6 @@
 Using LCS T.C : O(n^2) lead to TLE
 
+CODE:
 class Solution {
 private:
     int lengthOfLIS(vector<vector<int>>& nums) {
@@ -19,6 +20,65 @@ private:
 public:
     int maxEnvelopes(vector<vector<int>>& env) {
         sort(env.begin(),env.end());
+        return lengthOfLIS(env);
+    }
+};
+
+/Applying LCS using binary search T.C : O(n*log(n)) AC
+
+CODE:
+class Solution {
+private:
+    int next_greater_than_numi(int x,vector<int>& da)
+    {
+        int i=0,j=da.size();
+        while(i<=j)
+        {
+            int mid=(i+j)/2;
+            if(da[mid]>=x)
+            {
+                j=mid-1;
+            }
+            else
+            {
+                i=mid+1;
+            }
+        }
+        return j+1;
+    }
+    int lengthOfLIS(vector<vector<int>>& nums) {
+    int n = nums.size(),ans=0; 
+    vector<int> stak;
+    stak.push_back(nums[0][1]); 
+    for (int i = 0; i < n; ++i) { 
+         if(nums[i][1] > stak[stak.size()-1])
+         {
+            stak.push_back(nums[i][1]);
+         }
+         else
+         {
+            int idx=next_greater_than_numi(nums[i][1],stak);
+            stak[idx]=nums[i][1];
+         }
+         int len=stak.size();
+         ans=max(ans,len);
+    }
+ 
+    return ans;
+}
+public:
+    static bool comp(const vector<int>& v1, const vector<int>& v2){
+        //if first element are equal then sort on basis of second element as decending order
+        if(v1[0]==v2[0]){
+            return v1[1]>v2[1];
+        }
+        else{
+            return v1[0]<v2[0];
+        }
+    }
+    int maxEnvelopes(vector<vector<int>>& env) {
+        sort(env.begin(),env.end(),comp); 
+       // for(auto x:env)cout<<x[0]<<" "<<x[1]<<". ";
         return lengthOfLIS(env);
     }
 };
