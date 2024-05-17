@@ -1,0 +1,62 @@
+################################################################################################################
+Recusion TLE
+
+CODE:
+
+class Solution{
+private:
+    int solve(int arr[],int i,int j)
+    {
+        if(i==j)return 0;
+        
+        int min_ans=INT_MAX;
+        for(int k=i;k<j;k++)
+        {
+            int leftCost=solve(arr,i,k);
+            int rightCost=solve(arr,k+1,j);
+            int cost=arr[i-1]*arr[k]*arr[j];
+            
+            int total=leftCost+rightCost+cost;
+            min_ans=min(min_ans,total);
+        }
+        return min_ans;
+    }
+public:
+    int matrixMultiplication(int N, int arr[])
+    { 
+        return solve(arr,1,N-1);
+    }
+};
+################################################################################################################
+Memoization 
+
+CODE:
+
+class Solution{
+private:
+    int solve(int arr[],int i,int j,vector<vector<int>>& dp)
+    {
+        if(i==j)return 0;
+        
+        if(dp[i][j]!=-1)return dp[i][j];
+        
+        int min_ans=INT_MAX;
+        for(int k=i;k<j;k++)
+        {
+            int leftCost=solve(arr,i,k,dp);
+            int rightCost=solve(arr,k+1,j,dp);
+            int cost=arr[i-1]*arr[k]*arr[j];
+            
+            int total=leftCost+rightCost+cost;
+            min_ans=min(min_ans,total);
+        }
+        return dp[i][j] = min_ans;
+    }
+public:
+    int matrixMultiplication(int N, int arr[])
+    { 
+        vector<vector<int>> dp(N,vector<int> (N,-1));
+        return solve(arr,1,N-1,dp);
+    }
+};
+################################################################################################################
