@@ -1,0 +1,72 @@
+Points:
+* extra node may cause a node having two parents (example in 1st testcase at node 3 having two parent 1 and 2 so we remove last one 2->3) .
+* if no two parent node then there is somewhere it having cycle .
+
+CODE:
+
+class DSU{
+    vector<int> parent,rank;
+public:
+    DSU(int n)
+    {
+        parent.resize(n+1),rank.resize(n+1,0);
+        for(int i=0;i<=n;i++)parent[i] = i;
+    }
+    int findUP(int x)
+    {
+        if(parent[x] == x)return x;
+        return findUP(parent[x]);
+    }
+    bool Union(int a,int b)
+    {
+        int aP = findUP(a), bP = findUP(b);
+        if(aP == bP)return 0;
+
+        if(rank[aP] < rank[bP]){parent[aP] = bP;}
+        else if(rank[aP] > rank[bP]){parent[bP] = aP;}
+        else{parent[aP] = bP; rank[aP]++;}
+
+        return 1;
+    }
+};
+class Solution {
+
+public:
+    vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
+        int n = edges.size(),poss1 = -1,poss2 = -1;
+        vector<int> inorder(n+1,-1);
+
+        for(int i=0;i<n;i++)
+        {
+            if(inorder[edges[i][1]]==-1)
+            inorder[edges[i][1]] = i;
+            else
+            {
+                poss1 = i;//more prefer answer if possible
+                poss2 = inorder[edges[i][1]];//may possible answer
+            }
+        }
+       // cout<<poss1<<" "<<poss2;
+
+        DSU dsu(n);
+
+        for(int i=0;i<n;i++)
+        {
+            if(i==poss1)continue; //dont construct 1st discard possibility in DSU by this we first check for poss1
+            if(!dsu.Union(edges[i][0],edges[i][1]))
+            {
+                if(poss1 == -1)
+                {
+                    return edges[i];
+                }
+                else
+                { 
+                    return edges[poss2];
+                }
+            }
+        }
+
+        return edges[poss1];
+
+    }
+};
