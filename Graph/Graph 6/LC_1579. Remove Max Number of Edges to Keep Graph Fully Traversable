@@ -1,0 +1,63 @@
+class DSU{
+    
+public:
+    vector<int> parent,rank;
+    DSU(int n)
+    {
+        parent.resize(n+1),rank.resize(n+1,0);
+        for(int i=0;i<=n;i++)
+        parent[i]=i;
+    }
+    int findUP(int x)
+    {
+        if(parent[x]==x)return x;
+        return parent[x]=findUP(parent[x]);
+    }
+    bool Union(int a,int b)
+    {
+        int aP=findUP(a),bP=findUP(b);
+        if(aP==bP)return 0;
+        if(rank[aP]<rank[bP])parent[aP]=bP;
+        else if(rank[aP]>rank[bP])parent[bP]=aP;
+        else {parent[aP]=bP,rank[bP]++;}
+        return 1;
+    }
+};
+class Solution {
+public:
+    int maxNumEdgesToRemove(int len, vector<vector<int>>& edges) {
+        int n=edges.size(),c=0;
+        sort(edges.begin(),edges.end(),greater<vector<int>>()); //first prefer type-3 edges
+        vector<bool> vis(len+1,0);
+
+        DSU Alice(len),Bob(len);
+
+        for(int i=0;i<n;i++)
+        {   
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int w = edges[i][2]; 
+            if(u==3)
+            {
+                if(!Alice.Union(v,w) || !Bob.Union(v,w))
+                c++;
+            }
+            if(u==1)
+            {
+                if(!Alice.Union(v,w))
+                c++; 
+            }
+            if(u==2)
+            {
+                if(!Bob.Union(v,w))
+                c++; 
+            }
+        } 
+
+        //checking all node of bob and alice DSU having same Ultimate parent by this we can clarify that all belong to one component;
+        //by this we also check all node are visited or not
+        for(int i=1;i<=len;i++){if(Alice.findUP(i)!=Alice.findUP(1) || Bob.findUP(i)!=Bob.findUP(1))return -1;}  
+        
+        return c;
+    }
+};
