@@ -1,0 +1,76 @@
+########################################################################################################################################
+recursive bruteforce
+
+#include<bits/stdc++.h>
+using namespace std;
+
+unordered_map<string, int> dp;
+
+int solve(int arr[], int x, int y, int z, int i, int j, int k ,int n) {
+    // Base cases all indice should in range and unique
+    if (i < 0 || j < 0 || k < 0 || i >= j || j >= k || k >= n) {
+        return INT_MIN;
+    }
+ 
+    //this way you can avoid a complex mapping of 3 key,which require either tuple of nested pair as key in map
+    string key = to_string(i)+"_"+to_string(j)+"_"+to_string(k);
+ 
+    if (dp.find(key) != dp.end()) {
+        return dp[key];
+    }
+ 
+    int current_value = (x * arr[i]) + (y * arr[j]) + (z * arr[k]);
+ 
+    return dp[key] = max(current_value,
+                        max(solve(arr, x, y, z, i + 1, j, k ,n),
+                            max(solve(arr, x, y, z, i, j + 1, k ,n),
+                                solve(arr, x, y, z, i, j, k + 1 ,n))));
+}
+
+int main()
+{
+    //given inputs
+    int a[] = {-1, -2, -3, -4, -5}; 
+    int n = 5; 
+    int x = 1, y = 2 , z = -3; 
+    
+    cout<<solve(a,x,y,z,0,1,2,n);
+}
+
+########################################################################################################################################
+tabulation optimal using precomputation concept
+
+
+
+#include <bits/stdc++.h>
+using namespace std; 
+
+int main() {
+    // Given inputs
+    int arr[] = {-1, -2, -3, -4, -5}; 
+    int n = 5;
+    int x = 1, y = 2, z = -3; 
+    cout << solve(arr, n, x, y, z) << endl;   
+
+    vector<int> L(n),R(n);;
+
+    L[0] = x * arr[0];
+    for (int i = 1; i < n; i++) {
+        L[i] = max(L[i - 1], x * arr[i]);
+    }
+
+    // Create the right maximum array
+    R[n - 1] = z * arr[n - 1];
+    for (int i = n - 2; i >= 0; i--) {
+        R[i] = max(R[i + 1], z * arr[i]);
+    }
+
+    // Calculate the maximum value of the expression
+    int ans = INT_MIN;
+    for (int i = 0; i < n; i++) {
+        ans = max(ans, L[i] + y * arr[i] + R[i]);
+    }
+
+    return ans; 
+}
+########################################################################################################################################
