@@ -1,0 +1,70 @@
+##############################################################################################################################
+Memoization leads to MLE
+
+class Solution {
+private:
+    bool solve(string s, string t, int i, int j, vector<vector<int>>& dp) {
+        if (i == s.size() && j == t.size()) {
+            return 1;
+        } else if (i == s.size()) {
+            for (int k = j; k < t.size(); k++) {
+                if (t[k] != '*')
+                    return 0;
+            }
+            return 1;
+        } else if (j == t.size()) {
+            return 0;
+        } else {
+            if (dp[i][j] != -1)
+                return dp[i][j];
+            if (s[i] == t[j] || t[j] == '?')
+                return dp[i][j] = solve(s, t, i + 1, j + 1, dp);
+            else if (t[j] == '*') {
+                return dp[i][j] = solve(s, t, i + 1, j, dp) ||
+                                  solve(s, t, i, j + 1, dp);
+            } else
+                return dp[i][j] = 0;
+        }
+    }
+
+public:
+    bool isMatch(string s, string p) {
+        int n = s.size(), m = p.size();
+        vector<vector<int>> dp(n, vector<int>(m, -1));
+        return solve(s, p, 0, 0, dp);
+    }
+};
+##############################################################################################################################
+Tabulation AC
+
+public:
+    bool isMatch(string s, string t) {
+         int m = s.size(), n = t.size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        
+        // Base case initialization
+        dp[m][n] = 1;  
+         
+        for (int j = n - 1; j >= 0; --j) {
+            if (t[j] == '*') {
+                dp[m][j] = dp[m][j + 1]; // '*' must for any characters
+            }
+        }
+        
+        // Fill the DP table
+        for (int i = m - 1; i >= 0; --i) {
+            for (int j = n - 1; j >= 0; --j) {
+                if (s[i] == t[j] || t[j] == '?') {
+                    dp[i][j] = dp[i + 1][j + 1];
+                } else if (t[j] == '*') {
+                    dp[i][j] = dp[i + 1][j] || dp[i][j + 1];
+                } else {
+                    dp[i][j] = 0;
+                }
+            }
+        }
+        
+        return dp[0][0];
+    }
+};
+##############################################################################################################################
