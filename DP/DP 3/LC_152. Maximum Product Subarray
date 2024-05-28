@@ -1,0 +1,64 @@
+Without kadane's in O(N) with extra space (new solution)
+
+class Solution {
+private:
+    int solve(vector<int>& v,int i,int j)
+    {
+        double mul=1,firstneg,lastneg,flag=1;
+        int countneg=0;
+
+        if(j-i==1)return 0;
+        if(j-i==2)return v[i+1];
+
+        for(int k=i+1;k<j;k++)
+        {
+            if(flag && v[k]<0)
+            {
+                firstneg=mul*(abs(v[k]));
+                flag=0;
+            }
+            if(v[k]<0)
+            {
+                lastneg=mul;
+                countneg++;
+            }
+            mul*=(abs(v[k]));
+        }
+       // cout<<i<<" "<<j<<" "<<mul<<" .";
+        if(countneg%2==0)
+        {
+            return mul;
+        }
+        else
+        {
+            mul = max(mul/(firstneg),lastneg);
+            return mul;
+        }
+    }
+public: 
+    int maxProduct(vector<int>& nums) {
+        int n=nums.size(),maxx=INT_MIN,cz=0;
+
+        //storing index of zero
+        vector<int> zidx;
+        zidx.push_back(-1);
+
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]==0)
+            {
+                zidx.push_back(i);
+                cz++;
+            }
+        }
+        zidx.push_back(n);
+        for(int i=1;i<zidx.size();i++)
+        {
+            //checking max product between zeros window ex: 0 4 3 -2 0
+            maxx=max(maxx,solve(nums,zidx[i-1],zidx[i])); 
+        }
+
+        if(zidx.size()>2)return max(maxx,0);
+        return maxx;
+    }
+};
