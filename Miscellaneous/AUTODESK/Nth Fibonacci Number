@@ -1,0 +1,46 @@
+Recursive solution
+T.C : O(N)
+S.C : O(N)
+
+CODE:
+class Solution {
+  private:
+    int mod=1000000007;
+    int solve(int n,int a,int b)
+    {
+        if(n==0)return b;
+        
+        return solve(n-1,b,(a+b)%mod);
+    }
+  public:
+    int nthFibonacci(int n){
+        // code here
+        if(n==1 || n==2)return 1;
+    
+        return solve(n-2,1,1);
+    }
+};
+
+
+Iterative solution
+T.C: O(N)
+S.C: O(1)
+
+CODE:
+class Solution { 
+  public:
+    int nthFibonacci(int n){
+        // code here
+        int a=1,b=1,mod=1000000007;
+        if(n==1 || n==2)return 1;
+    
+        for(int i=2;i<n;i++)
+        {
+            int c=(a+b)%mod;
+            a=b;
+            b=c;
+        }
+        
+        return b;
+    }
+};
