@@ -1,0 +1,77 @@
+Using DSU
+
+CODE:
+class DSU{
+    vector<int> parent,rank;
+
+public:
+    DSU(int n)
+    {
+        rank.resize(n+1,0);
+        parent.resize(n+1);
+        for(int i=0;i<=n;i++)parent[i]=i;
+    }
+    int UP(int x)
+    {
+        if(parent[x] == x)return x;
+        return parent[x] = UP(parent[x]);
+    }
+    bool Union(int a,int b)
+    {
+        int UPa = UP(a);
+        int UPb = UP(b);
+
+        if(UPa == UPb)return 0;
+
+        if(rank[UPa] > rank[UPb])
+        {
+            parent[UPb] = UPa;
+        }
+        else if(rank[UPa] < rank[UPb])
+        {
+            parent[UPa] = UPb;
+        }
+        else
+        {
+            parent[UPa] = UPb;
+            rank[UPb]++;
+        }
+        return 1;
+    }
+};
+
+class Solution {
+
+public:
+    int minimumHammingDistance(vector<int>& source, vector<int>& target, vector<vector<int>>& aS) {
+        int n=source.size(),len=aS.size(),c=0;
+
+        DSU dsu(n);
+
+        for(int i=0;i<len;i++)
+        {
+            dsu.Union(aS[i][0],aS[i][1]);
+        } 
+        unordered_map<int,vector<int>>mp;
+
+        for(int i=0;i<n;i++){
+            mp[dsu.UP(i)].push_back(i);
+        } 
+
+        for(auto x:mp){
+            unordered_map<int,int>mp1,mp2;
+
+            for(auto i:x.second){
+                mp1[source[i]]++;
+                mp2[target[i]]++;
+            }
+            int temp=0;
+
+            for(auto [value,count]:mp1) {
+                temp+=max(0,count-mp2[value]);
+            }
+            c+=temp;
+        }
+        return c;
+    }
+};
