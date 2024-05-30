@@ -1,0 +1,32 @@
+T.C : O(n^2 + n*log(n))
+S.C : O(1)
+
+CODE:
+class Solution
+{
+    public:
+    //Function to count the number of possible triangles.
+    int findNumberOfTriangles(int arr[], int n)
+    {
+        // code here
+        sort(arr,arr + n);
+        int c=0;
+        for(int i=n-1;i>=2;i--)
+        {
+            int j=0,k=i-1;
+            while(j<k)
+            {
+                if(arr[i] < arr[k] + arr[j])
+                {
+                    c+=(k-j);
+                    k--;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+        }
+        return c;
+    }
+};
