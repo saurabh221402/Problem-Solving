@@ -1,0 +1,14 @@
+class Solution { 
+public:
+    vector<vector<int>> memo;
+    int solve(vector<int>& v,vector<int>& mul,int i,int j,int ii)
+    {
+        if(ii==mul.size())return 0;
+        if(memo[i][ii]!=INT_MIN)return memo[i][ii];
+        return memo[i][ii] = max(mul[ii]*v[i] + solve(v,mul,i+1,j,ii+1) , mul[ii]*v[j] + solve(v,mul,i,j-1,ii+1));
+    }
+    int maximumScore(vector<int>& nums, vector<int>& mul) { 
+        memo.assign(nums.size(), vector<int>(mul.size(), INT_MIN));
+        return solve(nums,mul,0,nums.size()-1,0);
+    }
+};
