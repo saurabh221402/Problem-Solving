@@ -6,7 +6,7 @@ apply binary search
 1. search space : 
               𝑥 (1≤𝑥≤10^12)  and (a,b) should positive number.
               so, min a and b can is 1 and max pow(10,12/3)= 10^4;
-              hence search space lowerbound=1 to upperbound=min(cbrt(x),10^4);
+              hence search space lowerbound=1 to upperbound=min(cbrt(x),10^4)
 
 2.key: here we choose A from search space iterative O(upperbound) and find b using BS taking remain_val as key;
         remain_val=x-a*a*a  
